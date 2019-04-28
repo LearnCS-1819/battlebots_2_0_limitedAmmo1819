@@ -320,7 +320,7 @@ public class BattleBotArena extends JPanel implements MouseListener, MouseWheelL
 	 * Initial ammo as part of limited ammo functionality		
 	 * !Passed to the botInfo for its value.		
 	 */		
-	public static final int BULLETS_LEFT = 30;//BROOKS Value changed to 30 from 20 - ROWBOTTOM Ammo
+	public static final int BULLETS_LEFT = 20;//BROOKS Value changed to 30 from 20 - ROWBOTTOM Ammo
 		
 	/**		
 	 * When ELIMINATIONS_PER_ROUND is set to 0 then 		
@@ -1614,10 +1614,16 @@ public class BattleBotArena extends JPanel implements MouseListener, MouseWheelL
 					else if (showScores)
 						title = ""+df.format(botsInfo[i].getCumulativeScore());//Rowbottom
 					else if (showTeams)//Rowbottom changed teams to show ammo
-						//title = botsInfo[i].getAmmo();
-
+						title = botsInfo[i].getTeamName() + " " + botsInfo[i].getBulletsLeft();
+					//*/
 					// x calculation based on x-width of 0.5 font size with a one pixel spacer between letters
+						// System.out.println(title);
 					g.drawString(title, (int)(botsInfo[i].getX()+Bot.RADIUS-(title.length()/2.0*(NAME_FONT*0.5+1))+0.5), (int)(botsInfo[i].getY()-1+0.5));
+				}else {
+					if (botsInfo[i].getBulletsLeft() > 0) {
+						String title = "" + botsInfo[i].getBulletsLeft();
+						g.drawString(title, (int) (botsInfo[i].getX() + Bot.RADIUS - (title.length() / 2.0 * (NAME_FONT * 0.5 + 1)) + 0.5), (int) (botsInfo[i].getY() - 1 + 0.5));
+					}
 				}
 			}
 			// trigger a paint event

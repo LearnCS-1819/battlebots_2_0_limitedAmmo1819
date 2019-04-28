@@ -62,7 +62,7 @@ public class HumanBot extends Bot implements KeyListener {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "Daniyal Rocks";
+		return "Hooman";
 	}
 
 	@Override
