@@ -186,6 +186,7 @@ public class RahimBot extends Bot {
             /**
              * Handle combat
              */
+            // make sure we dont attack a teamate
             if (closest.getTeamName() != me.getTeamName()) {
                 if ((me.getY() + Bot.RADIUS >= closest.getY() && me.getY() + Bot.RADIUS <= closest.getY() + (Bot.RADIUS * 2)) && (closest.getName() != "RahimBot")) { // make sure the enemy bot is directly to the right or left of our bot
 
@@ -242,34 +243,33 @@ public class RahimBot extends Bot {
             /**
              * Handle movement
              */
+            // no point in moving towards a teamate
             if (closest.getTeamName() != me.getTeamName()) {
-
+                // if the last move was made over a couple hundred times, the bot is probably stuck so move around the bot its stuck on
                 if (me.getLastMove() == BattleBotArena.UP) {
                     u++;
                     if (u > 444) {
                         //System.out.println("stuck");
-                        u = 0;
+                        u = 0; // make this 0 so that it doesn't countinue incrementing in the next rounds
                         if (me.getX() > closest.getX()) {
                             return BattleBotArena.RIGHT;
                         }
                         else {
                             return BattleBotArena.LEFT;
                         }
-
                     }
                 }
                 else if (me.getLastMove() == BattleBotArena.DOWN) {
                     d++;
                     if (d > 444) {
                         //System.out.println("stuck");
-                        d = 0;
+                        d = 0; // make this 0 so that it doesn't countinue incrementing in the next rounds
                         if (me.getX() > closest.getX()) {
                             return BattleBotArena.RIGHT;
                         }
                         else {
                             return BattleBotArena.LEFT;
                         }
-
                     }
                 }
 
@@ -295,6 +295,7 @@ public class RahimBot extends Bot {
             }
         }
 
+        // if nothing, just return null
         return 0;
     }
 
