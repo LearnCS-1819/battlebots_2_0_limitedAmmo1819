@@ -22,7 +22,7 @@ public class QirongBot extends Bot {
     private double bulletDeltaY;
     private boolean firstRound;
     int j=0;
-    BotInfo[] enemyBots = new BotInfo[6];//declares an array for enemy bots
+    BotInfo[] enemyBots = new BotInfo[0];//declares an array for enemy bots
 
     /**
      * This method is called at the beginning of each round. Use it to perform
@@ -77,6 +77,9 @@ public class QirongBot extends Bot {
         }
         BotInfo closestBot = botHelper.findClosest(me, enemyBots);//creates a bothelper that will detect the closest live bot that is an enemy
         moveTimer++;
+        if (moveTimer > 10) {//resets the timer that determines whether the bot moves up or down
+            moveTimer = 0;
+        }
         if (bullets != null) {
             Bullet closestBullet = botHelper.findClosest(me, bullets);//creates a bothelper to track the nearest bullet
 
@@ -172,11 +175,23 @@ public class QirongBot extends Bot {
                     i--;
                 }
             }
+            BotInfo closestDeadBot = botHelper.findClosest(me, deadBotsAmmo);//creates a bothelper that will detect the closest live bot that is an enemy
+            if (moveTimer <= 5) {
+                if (closestDeadBot.getX() > me.getX()) {
+                    return BattleBotArena.RIGHT;
+                } else {
+                    return BattleBotArena.LEFT;
+                }
+            }else if(moveTimer > 5) {
+                if (closestDeadBot.getY() > me.getY()) {
+                    return BattleBotArena.DOWN;
+                }else{
+                    return BattleBotArena.UP;
+                }
+            }
 
         }
-        if (moveTimer > 10) {//resets the timer that determines whether the bot moves up or down
-            moveTimer = 0;
-        }
+
         if ((me.getX() - closestBot.getX() < 5) && (me.getX() - closestBot.getX() > -5) && !(closestBot.getTeamName().equals("Team2"))) {//if the enemy bot's x cordinates are close, this makes it fire up or down. also checks for teamname before firing
             if (me.getY() < closestBot.getY()) {
                 if (debug) {
@@ -212,7 +227,7 @@ public class QirongBot extends Bot {
             }
         }
         if (botHelper.manhattanDist(me.getX(), me.getY(), closestBot.getX(), closestBot.getY()) < DANGERZONE) {//Code to flee from very close bots
-            if (moveTimer <= 10) {
+            if (moveTimer <= 5) {
                 if (me.getX() < closestBot.getX()) {//fleeing left or right to keep a distance from other robots
                     if (debug) {
                         System.out.println("fleeingLeft " + moveTimer);
@@ -226,7 +241,7 @@ public class QirongBot extends Bot {
                 }
 
             }
-            if (moveTimer > 10) {
+            if (moveTimer > 5) {
                 if (me.getY() < closestBot.getY()) {//fleeing up or down to keep a distance from other robots
                     if (debug) {
                         System.out.println("fleeingUp " + moveTimer);
